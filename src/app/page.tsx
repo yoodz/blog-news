@@ -9,7 +9,7 @@ export default function Home() {
   })
 
   async function getData(page: number) {
-    const data = await fetch(`https://blogapi.afunny.top/.netlify/functions/get-rss?page=${page}&page_size=10`)
+    const data = await fetch(`https://blogapi.afunny.top/.netlify/functions/get-rss?page=${page}&page_size=20`)
     const res = await data.json()
     setPosts(res)
   }
