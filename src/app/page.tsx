@@ -62,15 +62,6 @@ export default function Home() {
     }
   }
 
-  const nextPage = () => {
-    const next = +posts.page * PAGE_SIZE
-    if (next < posts.total) {
-      getData(+posts.page + 1)
-    } else {
-      console.log('没有下一页了')
-    }
-  }
-
   const handleClick = (link: string) => {
     window.open(link)
   }
@@ -94,7 +85,7 @@ export default function Home() {
     getData(type as number)
   }
 
-  function onSubmit(data) {
+  function onSubmit() {
     toast.success("暂未开放。");
   }
 
