@@ -179,7 +179,7 @@ export default function Home({ initialData }: IHome) {
         </Dialog>
 
       </div>
-      <div className="text-md text-gray-500 my-4">一个基于RSS的Blog News博客聚合项目，每天自动抓取博客文章, 每篇文章都保留了原始链接，点击标题即可直接访问原作者网站。</div>
+      <div className="text-md text-gray-500 my-4">一个基于RSS的Blog News博客聚合项目，每天自动抓取博客文章, 及时获取博客动态。</div>
       <main className="flex flex-col gap-2 row-start-2 items-center sm:items-start">
         {posts?.results?.map(item => {
           const { title, link, hostname, pubDate } = item || {}
