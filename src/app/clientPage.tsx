@@ -61,6 +61,7 @@ export default function Home({ initialData }: IHome) {
       const res = await data.json()
       setPosts(res)
     } catch (error) {
+      console.log(error, 'clientPage-64')
     } finally {
       window.scrollTo({
         top: 0,
