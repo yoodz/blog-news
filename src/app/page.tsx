@@ -4,7 +4,8 @@ async function getData(page: number) {
   try {
     const data = await fetch(`https://blogapi.afunny.top/.netlify/functions/get-rss?page=${page}&page_size=20`)
     return await data.json()
-  } catch (error) {
+    // @ts-ignore
+  } catch (e) {
     return {}
   } 
 }
