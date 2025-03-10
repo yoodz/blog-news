@@ -2,7 +2,7 @@ import ClientPage from './clientPage'
 
 async function getData(page: number) {
   try {
-    const data = await fetch(`https://blogapi.afunny.top/.netlify/functions/get-rss?page=${page}&page_size=20`, { cache: 'no-store' })
+    const data = await fetch(`https://blogapi.afunny.top/.netlify/functions/get-rss?page=${page}&page_size=20`)
     return await data.json()
   } catch (e) {
     console.log(e, 'page-8')
@@ -15,3 +15,4 @@ export default async function Home() {
   return <ClientPage initialData={initialData} />
 
 }
+export const dynamic = 'force-dynamic'
