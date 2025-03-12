@@ -116,16 +116,16 @@ export default function Home({ initialData }: IHome) {
   function shouldDisplayPage(i: number) {
     const pageNumber = i + 1;
 
-    if (currentPage > 2 && pageNumber <= 2) {
+    if (currentPage > 2 && pageNumber < 2) {
       return false;
     }
 
-    if (currentPage <= totalPage - 2 && pageNumber >= totalPage - 1) {
+    if (currentPage <= totalPage - 2 && pageNumber > totalPage - 1) {
       return false;
     }
 
     // 判断是否在当前页的前后2页范围内
-    if (pageNumber >= currentPage - 2 && pageNumber <= currentPage + 2) {
+    if (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1) {
       return true;
     }
 
@@ -230,9 +230,12 @@ export default function Home({ initialData }: IHome) {
                 <PaginationItem>
                   <PaginationLink onClick={() => handlePagination(1)} isActive={1 === currentPage}>{1}</PaginationLink>
                 </PaginationItem>
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
+                {currentPage > 3 &&
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                }
+
               </>
             }
             {Array.from({ length: totalPage }).map((item, i) => {
@@ -244,9 +247,11 @@ export default function Home({ initialData }: IHome) {
             })}
             {
               currentPage < totalPage - 1 && <>
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
+                {
+                  currentPage < totalPage - 2 && <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                }
                 <PaginationItem>
                   <PaginationLink onClick={() => handlePagination(totalPage)} isActive={totalPage === currentPage}>{totalPage}</PaginationLink>
                 </PaginationItem>
