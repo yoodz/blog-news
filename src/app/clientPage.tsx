@@ -144,7 +144,7 @@ export default function Home({ initialData }: IHome) {
   return (
     <div className="max-w-3xl mx-auto p-4 py-8">
       <Toaster />
-      <div className="flex justify-between items-center text-2xl font-bold text-zinc-800 sticky top-0  bg-white pt-3 pb-3 z-10">
+      <div className="flex justify-between items-center text-2xl font-bold text-zinc-800 sticky  top-0  bg-white pt-4 pb-4 z-10">
         <div className="md:flex items-center">
           <div className="flex items-center">
             <div className="mr-3 whitespace-nowrap">Blog News</div>
