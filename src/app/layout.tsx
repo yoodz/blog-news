@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Blog News",
-  description: "一个基于RSS的Blog News博客聚合项目，每天自动抓取博客文章, 及时获取博客动态",
+  description: "一个基于RSS的Blog News博客聚合项目，每天自动抓取感兴趣的博客文章, 及时获取博客动态",
 };
 
 export default function RootLayout({

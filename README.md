@@ -1,7 +1,7 @@
 # Blog News
-一个基于RSS的Blog News博客聚合项目，每天自动抓取博客文章, 及时获取博客动态。
+一个基于RSS的Blog News博客聚合项目，每天自动抓取感兴趣的博客文章, 及时获取博客动态。
 
-预览地址: https://blognews.afunny.top
+[预览地址](https://blognews.afunny.top)
 
 ## 主要特性
 - 自动抓取博客最新文章
