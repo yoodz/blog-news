@@ -32,21 +32,21 @@ import { Input } from "@/components/ui/input"
 import { Toaster } from '@/components/ui/sonner'
 import { toast } from "sonner"; // 如果你在使用 React 版本
 
-interface IHome {
-  initialData: {
-    total: number
-    page: number
-    results: {
-      title: string
-      link: string
-      hostname: string
-      pubDate: string
-    }[],
-    config: {
-      updateAt: string
-    }
-  } | {}
-}
+// interface IHome {
+//   initialData: {
+//     total: number
+//     page: number
+//     results: {
+//       title: string
+//       link: string
+//       hostname: string
+//       pubDate: string
+//     }[],
+//     config: {
+//       updateAt: string
+//     }
+//   } | {}
+// }
 
 const PAGE_SIZE = 20
 export default function Home() {
