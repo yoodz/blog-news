@@ -10,9 +10,9 @@ async function getData(page: number) {
 }
 
 export default async function Home() {
-  // 首屏服务端请求
-  const initialData = await getData(1)
-  return <ClientPage initialData={initialData} />
+  // 首屏服务端请求， 更新：首屏接口服务端请求太慢了，改为客户端渲染
+  // const initialData = await getData(1)
+  return <ClientPage />
 
 }
 export const dynamic = 'force-dynamic'
