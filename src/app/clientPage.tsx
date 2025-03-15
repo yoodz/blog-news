@@ -73,8 +73,9 @@ export default function Home() {
       const data = await fetch(`https://blogapi.afunny.top/.netlify/functions/get-rss?page=${page}&page_size=${PAGE_SIZE}`)
       const res = await data.json()
       setPosts(res)
-    } catch (error) {
-      console.log(error, 'clientPage-64')
+    } catch (e) {
+      console.log(e, 'clientPage-77')
+      toast.error("请求失败，请刷新重试");
     } finally {
       window.scrollTo({
         top: 0,
