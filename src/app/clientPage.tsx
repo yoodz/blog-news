@@ -48,6 +48,14 @@ import { toast } from "sonner"; // 如果你在使用 React 版本
 //   } | {}
 // }
 
+interface IResult {
+  _id: string
+  title: string
+  link: string
+  hostname: string
+  pubDate: string
+}
+
 const PAGE_SIZE = 20
 export default function Home() {
   const form = useForm()
@@ -76,8 +84,16 @@ export default function Home() {
     }
   }
 
-  const handleClick = (link: string) => {
-    window.open(link)
+  const handleClick = (item: IResult) => {
+    const { _id, link } = item || {}
+    try {
+      fetch(`https://blogapi.afunny.top/.netlify/functions/rss-activity?id=${_id}`)
+    } catch (error) {
+      //
+    } finally {
+      window.open(link)
+    }
+    return
   }
 
   const handlePagination = (type: string | number) => {
@@ -135,8 +151,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-      getData(1)
-      // 服务端请求失败客户端重试
+    getData(1)
+    // 服务端请求失败客户端重试
     // if (!posts?.page) {
     //   getData(1)
     // }
@@ -210,7 +226,7 @@ export default function Home() {
       <main className="flex flex-col gap-2 row-start-2 items-center sm:items-start">
         {posts?.results?.map(item => {
           const { title, link, hostname, pubDate } = item || {}
-          return <div className="w-full cursor-pointer hover:bg-blue-50 p-2 rounded-lg" key={title} onClick={() => handleClick(link)}>
+          return <div className="w-full cursor-pointer hover:bg-blue-50 p-2 rounded-lg" key={title} onClick={() => handleClick(item)}>
             <div>
               <a className="mr-4" > {title}</a>
               <span className="text-xs opacity-60 font-light">({hostname})</span>
