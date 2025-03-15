@@ -31,6 +31,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Toaster } from '@/components/ui/sonner'
 import { toast } from "sonner"; // 如果你在使用 React 版本
+import { formatTime } from '@/lib/utils'
 
 // interface IHome {
 //   initialData: {
@@ -233,7 +234,7 @@ export default function Home() {
               <span className="text-xs opacity-60 font-light">({hostname})</span>
             </div>
             <div>
-              <span className="mr-2 opacity-60 font-light text-xs">发布于：{pubDate}</span>
+              <span className="mr-2 opacity-60 font-light text-xs">发布于：{formatTime(pubDate)}</span>
             </div>
           </div>
         })}
