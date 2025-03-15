@@ -135,11 +135,11 @@ export default function Home() {
   }
 
   useEffect(() => {
-    console.log(posts, 'clientPage-114')
-    // 服务端请求失败客户端重试
-    if (!posts?.page) {
       getData(1)
-    }
+      // 服务端请求失败客户端重试
+    // if (!posts?.page) {
+    //   getData(1)
+    // }
   }, [])
 
   return (
@@ -220,10 +220,10 @@ export default function Home() {
             </div>
           </div>
         })}
-        {(!posts?.results?.length) && Array.from({ length: 10 }).map((item, idx) => {
-          return <div className="flex items-center w-full mb-5" key={idx}>
+        {(!posts?.results?.length) && Array.from({ length: 20 }).map((item, idx) => {
+          return <div className="flex items-center w-full mt-3 mb-5" key={idx}>
             <div className="w-full">
-              <Skeleton className="h-4 w-1/2 mb-2" />
+              <Skeleton className="h-4 w-4/5 mb-2" />
               <Skeleton className="h-4 w-1/3" />
             </div>
           </div>
