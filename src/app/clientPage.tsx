@@ -31,6 +31,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Toaster } from '@/components/ui/sonner'
 import { toast } from "sonner"; // 如果你在使用 React 版本
+import { formatTime } from '@/lib/utils'
 
 // interface IHome {
 //   initialData: {
@@ -73,8 +74,9 @@ export default function Home() {
       const data = await fetch(`https://blogapi.afunny.top/.netlify/functions/get-rss?page=${page}&page_size=${PAGE_SIZE}`)
       const res = await data.json()
       setPosts(res)
-    } catch (error) {
-      console.log(error, 'clientPage-64')
+    } catch (e) {
+      console.log(e, 'clientPage-77')
+      toast.error("请求失败，请刷新重试");
     } finally {
       window.scrollTo({
         top: 0,
@@ -232,7 +234,7 @@ export default function Home() {
               <span className="text-xs opacity-60 font-light">({hostname})</span>
             </div>
             <div>
-              <span className="mr-2 opacity-60 font-light text-xs">发布于：{pubDate}</span>
+              <span className="mr-2 opacity-60 font-light text-xs">发布于：{formatTime(pubDate)}</span>
             </div>
           </div>
         })}
