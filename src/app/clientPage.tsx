@@ -236,8 +236,8 @@ export default function Home() {
         {posts?.results?.map(item => {
           const { title, hostname, pubDate } = item || {}
           return <div className="w-full cursor-pointer hover:bg-blue-50 p-2 rounded-lg" key={title} onClick={() => handleClick(item)}>
-            <div>
-              <a className="mr-4" > {title}</a>
+            <div className="flex">
+              <span className="mr-4 block overflow-hidden text-ellipsis whitespace-nowrap"> {title}</span>
               <span className="text-xs opacity-60 font-light">({hostname})</span>
             </div>
             <div>
