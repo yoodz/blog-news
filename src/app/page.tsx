@@ -15,4 +15,4 @@ export default async function Home() {
   return <ClientPage />
 
 }
-export const dynamic = 'force-dynamic'
+// export const dynamic = 'force-dynamic'
