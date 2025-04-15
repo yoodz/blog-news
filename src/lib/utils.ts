@@ -10,16 +10,30 @@ export function formatTime(inputDate: string) {
   const date = dayjs(inputDate);
   const now = dayjs();
 
-  // 计算与当前时间的差异
-  const diffInHours = now.diff(date, 'hour');
-  const diffInDays = now.diff(date, 'day');
+  const diffInMinutes = now.diff(date, 'minute');
 
-  if (diffInHours < 24 && diffInHours >= 0) {
-    return `${diffInHours}小时前`;
-  } else if (diffInDays <= 30 && diffInDays > 0) {
-    return `${diffInDays}天前`;
-  } else {
-    // 原样返回原始日期
-    return inputDate; // 或者根据需要调整返回格式，比如 date.format('YYYY-MM-DD')
+  // 处理1小时内的分钟显示
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes}分钟前`;
   }
+
+  const diffInHours = now.diff(date, 'hour');
+
+  // 处理24小时内的小时+分钟显示
+  if (diffInHours < 24) {
+    const remainingMinutes = diffInMinutes % 60;
+    // 当分钟数为0时只显示小时
+    return remainingMinutes === 0 
+      ? `${diffInHours}小时前`
+      : `${diffInHours}小时${remainingMinutes}分钟前`;
+  }
+
+  // 计算实际天数（基于24小时周期）
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays <= 30) {
+    return `${diffInDays}天前`;
+  }
+
+  // 超过30天显示完整日期时间
+  return date.format('YYYY-MM-DD HH:mm:ss');
 }
