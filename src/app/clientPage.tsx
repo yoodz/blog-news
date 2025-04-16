@@ -238,11 +238,13 @@ export default function Home() {
           const { title, hostname, pubDate } = item || {}
           return <div className="w-full cursor-pointer hover:bg-blue-50 p-2 rounded-lg" key={title} onClick={() => handleClick(item)}>
             <div className="flex items-center">
-              <span className="mr-4 block overflow-hidden text-ellipsis whitespace-nowrap"> {title}</span>
-              <span className="text-xs opacity-60 font-light">({hostname})</span>
+              <span className="block overflow-hidden text-ellipsis whitespace-nowrap hover:underline"> {title}</span>
             </div>
             <div>
-              <span className="mr-2 opacity-60 font-light text-xs">发布于：{formatTime(pubDate)}</span>
+              <span className="text-gray-400 font-light text-xs">
+                {formatTime(pubDate)}<span className='mr-2 ml-2'>•</span>
+                <span className="font-bold hover:underline">{hostname}</span>
+                </span>
             </div>
           </div>
         })}
