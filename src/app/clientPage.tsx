@@ -234,7 +234,7 @@ export default function Home({ initialData }: any) {
       </div>
       <div className="text-md text-gray-500 my-4">一个基于RSS的Blog News博客聚合项目，每天自动抓取感兴趣的博客文章, 及时获取博客动态。</div>
       <main className="flex flex-col gap-2 row-start-2 items-center sm:items-start">
-        {posts?.result?.map(item => {
+        {posts?.result?.map((item) => {
           const { title, hostname, pubDate } = item || {}
           return <div className="w-full cursor-pointer hover:bg-blue-50 p-2 rounded-lg" key={title} onClick={() => handleClick(item)}>
             <div className="flex items-center">
