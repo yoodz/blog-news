@@ -32,6 +32,7 @@ import { Input } from "@/components/ui/input"
 import { Toaster } from '@/components/ui/sonner'
 import { toast } from "sonner"; // 如果你在使用 React 版本
 import { formatTime } from '@/lib/utils'
+import ClientTime from '@/components/ClientTime'
 
 // interface IHome {
 //   initialData: {
@@ -242,7 +243,8 @@ export default function Home({ initialData }: any) {
             </div>
             <div>
               <span className="text-gray-400 font-light text-xs">
-                {formatTime(pubDate)}<span className='mr-1 ml-1'>•</span>
+                <ClientTime date={pubDate} refreshInterval={60000} />
+                <span className='mr-1 ml-1'>•</span>
                 <span className="font-bold hover:underline">{hostname}</span>
                 </span>
             </div>
