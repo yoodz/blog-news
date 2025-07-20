@@ -62,8 +62,8 @@ const PAGE_SIZE = 20
 export default function Home({ initialData }: any) {
   const form = useForm()
   const [posts, setPosts] = useState(initialData)
-  const [config, setConfig] = useState({ value: '' })
-  const [totalRss, setTotalRss] = useState(0)
+  const [config, setConfig] = useState(initialData?.config || {})
+  const [totalRss, setTotalRss] = useState(initialData?.totalRss || 0)
   const [wait, setWait] = useState(0)
   const { totalPage, currentPage } = useMemo(() => {
     return {
