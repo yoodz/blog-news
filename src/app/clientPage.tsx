@@ -60,6 +60,7 @@ interface IResult {
 
 const PAGE_SIZE = 20
 export default function Home({ initialData }: any) {
+  console.log(initialData, 'clientPage-63')
   const form = useForm()
   const [posts, setPosts] = useState(initialData)
   const [config, setConfig] = useState(initialData?.config || {})
@@ -67,8 +68,8 @@ export default function Home({ initialData }: any) {
   const [wait, setWait] = useState(0)
   const { totalPage, currentPage } = useMemo(() => {
     return {
-      totalPage: Math.ceil(posts.total / PAGE_SIZE),
-      currentPage: +posts.page
+      totalPage: Math.ceil(posts?.result?.length / PAGE_SIZE),
+      currentPage: 1
     }
   }, [posts])
 
@@ -76,6 +77,7 @@ export default function Home({ initialData }: any) {
     try {
       const data = await fetch(`https://cf.afunny.top/article?page=${page}&page_size=${PAGE_SIZE}`)
       const res = await data.json()
+      console.log(res, 'clientPage-79')
       setPosts(res)
       if (+page === 1) {
         const { config, totalRss } = res || {}

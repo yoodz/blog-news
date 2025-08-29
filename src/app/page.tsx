@@ -2,7 +2,7 @@ import ClientPage from './clientPage'
 
 async function getData(page: number) {
   try {
-    const data = await fetch(`https://cf.afunny.top/article?page=${page}&page_size=20`)
+    const data = await fetch(`http://localhost:3333/article?page=${page}&page_size=20`)
     return await data.json()
   } catch (e) {
     console.log(e, 'page-8')
