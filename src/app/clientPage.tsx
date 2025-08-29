@@ -60,30 +60,34 @@ interface IResult {
 
 const PAGE_SIZE = 20
 export default function Home({ initialData }: any) {
-  console.log(initialData, 'clientPage-63')
   const form = useForm()
-  const [posts, setPosts] = useState(initialData)
+  const [posts, setPosts] = useState({ ...initialData, article: initialData?.result.slice(0, PAGE_SIZE) || [] })
   const [config, setConfig] = useState(initialData?.config || {})
   const [totalRss, setTotalRss] = useState(initialData?.totalRss || 0)
   const [wait, setWait] = useState(0)
   const { totalPage, currentPage } = useMemo(() => {
     return {
       totalPage: Math.ceil(posts?.result?.length / PAGE_SIZE),
-      currentPage: 1
+      currentPage: +posts.page || 1
     }
   }, [posts])
 
   async function getData(page: number) {
     try {
-      const data = await fetch(`https://cf.afunny.top/article?page=${page}&page_size=${PAGE_SIZE}`)
-      const res = await data.json()
-      console.log(res, 'clientPage-79')
-      setPosts(res)
-      if (+page === 1) {
-        const { config, totalRss } = res || {}
-        setConfig(config)
-        setTotalRss(totalRss)
-      }
+      // const data = await fetch(`https://cf.afunny.top/article?page=${page}&page_size=${PAGE_SIZE}`)
+      // const res = await data.json()
+      setPosts({
+        ...posts,
+        page,
+        article: initialData.result.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+      })
+      // console.log(res, 'clientPage-79')
+      // setPosts(res)
+      // if (+page === 1) {
+      //   const { config, totalRss } = res || {}
+      //   setConfig(config)
+      //   setTotalRss(totalRss)
+      // }
     } catch (e) {
       console.log(e, 'clientPage-77')
       toast.error("请求失败，请刷新重试");
@@ -237,7 +241,7 @@ export default function Home({ initialData }: any) {
       </div>
       <div className="text-md text-gray-500 my-4">一个基于RSS的Blog News博客聚合项目，每天自动抓取感兴趣的博客文章, 及时获取博客动态。</div>
       <main className="flex flex-col gap-2 row-start-2 items-center sm:items-start">
-        {posts?.result?.map((item) => {
+        {posts?.article?.map((item: any) => {
           const { title, hostname, pubDate } = item || {}
           return <div className="w-full cursor-pointer hover:bg-blue-50 p-2 rounded-lg" key={title} onClick={() => handleClick(item)}>
             <div className="flex items-center">
