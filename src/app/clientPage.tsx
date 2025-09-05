@@ -176,7 +176,7 @@ export default function Home({ initialData }: any) {
   }, [])
 
   return (
-    <div className="max-w-3xl mx-auto p-4 py-8">
+    <div className="max-w-7xl mx-auto p-4 py-8 pt-0">
       <Toaster />
       <div className="flex justify-between items-center text-2xl font-bold text-zinc-800 sticky  top-0  bg-white pt-4 pb-4 z-10">
         <div className="md:flex items-center">
