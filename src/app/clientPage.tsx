@@ -31,24 +31,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Toaster } from '@/components/ui/sonner'
 import { toast } from "sonner"; // 如果你在使用 React 版本
-import { formatTime } from '@/lib/utils'
+import { throttle } from '@/lib/utils'
 import ClientTime from '@/components/ClientTime'
-
-// interface IHome {
-//   initialData: {
-//     total: number
-//     page: number
-//     result: {
-//       title: string
-//       link: string
-//       hostname: string
-//       pubDate: string
-//     }[],
-//     config: {
-//       updateAt: string
-//     }
-//   } | {}
-// }
 
 interface IResult {
   id: string
@@ -65,6 +49,15 @@ export default function Home({ initialData }: any) {
   const [config, setConfig] = useState(initialData?.config || {})
   const [totalRss, setTotalRss] = useState(initialData?.totalRss || 0)
   const [wait, setWait] = useState(0)
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = throttle(() => {
+      setScrolled(window.scrollY > 0);
+    }, 100);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   const { totalPage, currentPage } = useMemo(() => {
     return {
       totalPage: Math.ceil(posts?.result?.length / PAGE_SIZE),
@@ -178,7 +171,7 @@ export default function Home({ initialData }: any) {
   return (
     <div className="max-w-7xl mx-auto p-4 py-8 pt-0">
       <Toaster />
-      <div className="flex justify-between items-center text-2xl font-bold text-zinc-800 sticky  top-0  bg-white pt-4 pb-4 z-10">
+      <div className={`flex justify-between items-center text-2xl font-bold text-zinc-800 sticky top-0  bg-white pt-4 pb-4 z-10 ${scrolled ? "border-b border-gray-200" : ""}`}>
         <div className="md:flex items-center">
           <div className="flex items-center">
             <div className="mr-3 whitespace-nowrap cursor-pointer hover:underline" onClick={() => getData(1)}>Blog News</div>
@@ -252,7 +245,7 @@ export default function Home({ initialData }: any) {
                 <ClientTime date={pubDate} refreshInterval={60000} />
                 <span className='mr-1 ml-1'>•</span>
                 <span className="font-bold hover:underline">{hostname}</span>
-                </span>
+              </span>
             </div>
           </div>
         })}

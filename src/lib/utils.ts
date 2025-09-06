@@ -37,3 +37,14 @@ export function formatTime(inputDate: string) {
   // 超过30天显示完整日期时间
   return date.format('YYYY-MM-DD HH:mm:ss');
 }
+
+export function throttle(fn: (...args: any[]) => void, wait: number) {
+  let last = 0;
+  return (...args: any[]) => {
+    const now = Date.now();
+    if (now - last > wait) {
+      last = now;
+      fn(...args);
+    }
+  };
+}
