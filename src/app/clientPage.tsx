@@ -93,7 +93,7 @@ export default function Home({ initialData }: any) {
     } catch (error) {
       console.log(error, 'clientPage-92')
     } finally {
-      // window.open(link)
+      window.open(link)
     }
     return
   }
