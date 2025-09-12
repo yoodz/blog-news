@@ -31,10 +31,11 @@ import { Input } from "@/components/ui/input"
 import { Toaster } from '@/components/ui/sonner'
 import { toast } from "sonner"; // 如果你在使用 React 版本
 import { throttle } from '@/lib/utils'
+import { get, post } from '@/lib/httpUtil'
 import ClientTime from '@/components/ClientTime'
 
 interface IResult {
-  id: string
+  _id: string
   title: string
   link: string
   hostname: string
@@ -50,7 +51,7 @@ export default function Home({ initialData }: any) {
   const [wait, setWait] = useState(0)
   const [scrolled, setScrolled] = useState(false);
   const [showModal, setShowModal] = useState(false)
-
+  console.log(initialData, 'clientPage-53')
   useEffect(() => {
     const onScroll = throttle(() => {
       setScrolled(window.scrollY > 0);
@@ -67,20 +68,11 @@ export default function Home({ initialData }: any) {
 
   async function getData(page: number) {
     try {
-      // const data = await fetch(`https://cf.afunny.top/article?page=${page}&page_size=${PAGE_SIZE}`)
-      // const res = await data.json()
       setPosts({
         ...posts,
         page,
         article: initialData.result.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
       })
-      // console.log(res, 'clientPage-79')
-      // setPosts(res)
-      // if (+page === 1) {
-      //   const { config, totalRss } = res || {}
-      //   setConfig(config)
-      //   setTotalRss(totalRss)
-      // }
     } catch (e) {
       console.log(e, 'clientPage-77')
       toast.error("请求失败，请刷新重试");
@@ -93,15 +85,15 @@ export default function Home({ initialData }: any) {
     }
   }
 
-  const handleClick = (item: IResult) => {
-    const { id, link } = item || {}
+  const handleClick = async (item: IResult) => {
+    const { _id, link } = item || {}
     console.log(item, 'clientPage-99')
     try {
-      fetch(`https://cf.afunny.top/article/pv?id=${id}`)
+      await get(`/blogNewsApi/article/pv?id=${_id}`)
     } catch (error) {
       console.log(error, 'clientPage-92')
     } finally {
-      window.open(link)
+      // window.open(link)
     }
     return
   }
@@ -125,29 +117,29 @@ export default function Home({ initialData }: any) {
   }
 
   async function onSubmit(formData) {
-    const { rssUrl, title } = formData || {}
-    if (!rssUrl || !title) {
+    const { rssUrl } = formData || {}
+    if (!rssUrl) {
       toast.error("请先填写名称和地址");
       return
     }
     try {
-      const res = await fetch("https://v.afunny.top:4443/blogNewsApi/rss", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
+      const data = await post("/blogNewsApi/rss", formData);
+      // const data = await res.json();
       console.log("返回结果:", data);
+      if (data?.repeat) {
+        toast.success("请勿重复提交");
+        return
+      }
       if (data?.success) {
         toast.success("提交成功");
         setShowModal(false)
         form.reset()
+      } else {
+        toast.error("提交失败，请稍后重试");
       }
 
     } catch (error) {
+      toast.error("提交失败，请稍后重试");
       console.log(error, 'clientPage-145')
     }
   }
@@ -191,7 +183,7 @@ export default function Home({ initialData }: any) {
               <DialogTitle className="mb-5">提交RSS</DialogTitle>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="title"
                     render={({ field }) => (
@@ -202,7 +194,7 @@ export default function Home({ initialData }: any) {
                         </FormControl>
                       </FormItem>
                     )}
-                  />
+                  /> */}
                   <FormField
                     control={form.control}
                     name="rssUrl"
