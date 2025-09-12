@@ -18,7 +18,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 
 import {
@@ -50,6 +49,7 @@ export default function Home({ initialData }: any) {
   const [totalRss, setTotalRss] = useState(initialData?.totalRss || 0)
   const [wait, setWait] = useState(0)
   const [scrolled, setScrolled] = useState(false);
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     const onScroll = throttle(() => {
@@ -124,22 +124,34 @@ export default function Home({ initialData }: any) {
     getData(type as number)
   }
 
-  function onSubmit() {
-    toast.success("暂未开放。");
+  async function onSubmit(formData) {
+    const { rssUrl, title } = formData || {}
+    if (!rssUrl || !title) {
+      toast.error("请先填写名称和地址");
+      return
+    }
+    try {
+      const res = await fetch("https://v.afunny.top:4443/blogNewsApi/rss", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      console.log("返回结果:", data);
+      if (data?.success) {
+        toast.success("提交成功");
+        setShowModal(false)
+        form.reset()
+      }
+
+    } catch (error) {
+      console.log(error, 'clientPage-145')
+    }
   }
 
-  const initAwaitCount = async () => {
-    const res = await fetch(
-      `https://blogapi.afunny.top/.netlify/functions/track-visit?slug=blog_news_rss_click`
-    );
-    const resJson = await res.json()
-    setWait(resJson.count)
-  }
-
-  const hurryUp = async () => {
-    toast.success("加急成功！");
-    initAwaitCount()
-  }
   function shouldDisplayPage(i: number) {
     const pageNumber = i + 1;
 
@@ -160,13 +172,6 @@ export default function Home({ initialData }: any) {
     return false;
   }
 
-  useEffect(() => {
-    // getData(1)
-    // 服务端请求失败客户端重试
-    // if (!posts?.page) {
-    //   getData(1)
-    // }
-  }, [])
 
   return (
     <div className="max-w-7xl mx-auto p-4 py-8 pt-0">
@@ -179,58 +184,47 @@ export default function Home({ initialData }: any) {
           </div>
           <span className="text-xs font-normal flex-1 absolute opacity-60 mr-1 md:relative md:ml-3">最近更新: {config?.value || '-'}<span className='mr-1 ml-1'>•</span>已收录: {totalRss || '-'}个</span>
         </div>
-        <Dialog>
-          <DialogTrigger asChild><Button className="cursor-pointer" variant="outline" onClick={initAwaitCount}>提交RSS</Button></DialogTrigger>
-          <DialogContent>
+        <Button className="cursor-pointer" variant="outline" onClick={() => setShowModal(true)}>提交RSS</Button>
+        {showModal && <Dialog open={showModal}>
+          <DialogContent onClose={() => setShowModal(false)}>
             <DialogHeader>
               <DialogTitle className="mb-5">提交RSS</DialogTitle>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                   <FormField
                     control={form.control}
-                    name="name"
+                    name="title"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>网站名称</FormLabel>
                         <FormControl>
-                          <Input placeholder="请输入网站名称" {...field} />
+                          <Input placeholder="请输入网站名称" maxLength={50} {...field} />
                         </FormControl>
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="rss"
+                    name="rssUrl"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>RSS地址</FormLabel>
                         <FormControl>
-                          <Input placeholder="请输入RSS地址" {...field} />
+                          <Input placeholder="请输入RSS地址" maxLength={50} {...field} />
                         </FormControl>
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>邮箱</FormLabel>
-                        <FormControl>
-                          <Input placeholder="请输入邮箱" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+
                   <div className="flex">
-                    <Button type="submit" className="active:opacity-80 mr-2 cursor-pointer" variant="secondary">提交（暂未开放）</Button>
-                    <Button type="reset" onClick={hurryUp} className="flex-1 active:opacity-80 cursor-pointer">加急作者({wait})</Button>
+                    <Button type="reset" onClick={() => setShowModal(false)} className="active:opacity-80 mr-2 w-40 cursor-pointer" variant="secondary">取消</Button>
+                    <Button type="submit" className="flex-1 active:opacity-80 cursor-pointer">提交</Button>
                   </div>
                 </form>
               </Form>
             </DialogHeader>
           </DialogContent>
-        </Dialog>
+        </Dialog>}
       </div>
       <div className="text-md text-gray-500 my-4">一个基于RSS的Blog News博客聚合项目，每天自动抓取感兴趣的博客文章, 及时获取博客动态。</div>
       <main className="flex flex-col gap-2 row-start-2 items-center sm:items-start">
