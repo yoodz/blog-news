@@ -164,7 +164,7 @@ export default function Home({ initialData }: any) {
 
 
   return (
-    <div className="max-w-7xl mx-auto p-4 py-8 pt-0">
+    <div className="max-w-3xl mx-auto p-4 py-8 pt-0">
       <Toaster />
       <div className={`flex justify-between items-center text-2xl font-bold text-zinc-800 sticky top-0  bg-white pt-4 pb-4 z-10 ${scrolled ? "border-b border-gray-200" : ""}`}>
         <div className="md:flex items-center">
@@ -208,19 +208,19 @@ export default function Home({ initialData }: any) {
       <main className="flex flex-col gap-2 row-start-2 items-center sm:items-start">
         {posts?.article?.map((item: any) => {
           const { title, hostname, pubDate, pv } = item || {}
-          return <div className="w-full cursor-pointer hover:bg-blue-50 p-2 rounded-lg" key={title} onClick={() => handleClick(item)}>
+          return <div className="w-full cursor-pointer border-b-1 hover:bg-blue-50 p-2" key={title} onClick={() => handleClick(item)}>
             <div className="flex items-center">
               <span className="block overflow-hidden text-ellipsis whitespace-nowrap hover:underline"> {title}</span>
             </div>
-            <div>
-              <span className="text-gray-400 font-light text-xs">
+            <div className="mt-1">
+              <div className="text-gray-400 font-light text-xs flex justify-between">
+                <div>
                 <ClientTime date={pubDate} refreshInterval={60000} />
-                <span className='mr-1 ml-1' />
-                <span className="font-bold hover:underline">{hostname}</span>
-                <span className='mr-1 ml-1' />
+                <span className='mr-3 ml-1' />
                 <span className=''><i className="iconfont">&#xe98e;</i> {pv}</span>
-                
-              </span>
+                </div>
+                <div className="font-bold hover:underline">域名: {hostname}</div>
+              </div>
             </div>
           </div>
         })}
