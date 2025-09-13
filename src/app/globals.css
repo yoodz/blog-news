@@ -120,7 +120,24 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('/fonts/iconfont.woff2') format('woff2'),
+    url('/fonts/iconfont.woff') format('woff'),
+    url('/fonts/iconfont.ttf') format('truetype'),
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 12px;
+  /* 可以自己改大小 */
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
