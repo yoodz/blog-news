@@ -52,7 +52,7 @@ export default function Home({ initialData }: any) {
   const [showModal, setShowModal] = useState(false)
   useEffect(() => {
     const onScroll = throttle(() => {
-      setScrolled(window.scrollY > 0);
+      setScrolled(window.scrollY > 10);
     }, 100);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -178,21 +178,9 @@ export default function Home({ initialData }: any) {
         {showModal && <Dialog open={showModal}>
           <DialogContent onClose={() => setShowModal(false)}>
             <DialogHeader>
-              <DialogTitle className="mb-5">提交RSS</DialogTitle>
+              <DialogTitle className="mb-5">提交RSS<span className="text-xs ml-1 font-normal">数据次日更新</span></DialogTitle>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                  {/* <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>网站名称</FormLabel>
-                        <FormControl>
-                          <Input placeholder="请输入网站名称" maxLength={50} {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  /> */}
                   <FormField
                     control={form.control}
                     name="rssUrl"
