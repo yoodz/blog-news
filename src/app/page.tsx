@@ -1,9 +1,10 @@
 import ClientPage from './clientPage'
+import { get } from '@/lib/httpUtil'
 
 async function getData(page: number) {
   try {
-    const data = await fetch(`https://v.afunny.top:4443/blogNewsApi/article?page=${page}&page_size=20`)
-    return await data.json()
+    const data = await get(`/blogNewsApi/article?page=${page}&page_size=20`)
+    return data
   } catch (e) {
     console.log(e, 'page-8')
   } 

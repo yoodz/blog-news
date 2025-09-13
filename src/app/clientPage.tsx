@@ -48,10 +48,8 @@ export default function Home({ initialData }: any) {
   const [posts, setPosts] = useState({ ...initialData, article: initialData?.result.slice(0, PAGE_SIZE) || [] })
   const [config, setConfig] = useState(initialData?.config || {})
   const [totalRss, setTotalRss] = useState(initialData?.totalRss || 0)
-  const [wait, setWait] = useState(0)
   const [scrolled, setScrolled] = useState(false);
   const [showModal, setShowModal] = useState(false)
-  console.log(initialData, 'clientPage-53')
   useEffect(() => {
     const onScroll = throttle(() => {
       setScrolled(window.scrollY > 0);
